@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store'
 
-import { Event, initialEvents } from './event.model'
+import { EventItem, initialEvents } from './eventItem.model'
 
 // export const ADDEVENT = '[Event] Add'
 // export const DELETEEVENT = '[Event] Update'
@@ -24,7 +24,7 @@ export type All = FilterEvents | SortEvents
 
 
 export interface State {
-  events: Event[]
+  events: EventItem[]
   filter: string
   sort: { field: string, desc: boolean}
 }

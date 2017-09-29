@@ -1,4 +1,8 @@
-import { Component } from '@angular/core';
+import { Component } from '@angular/core'
+import { Observable } from 'rxjs/Observable'
+import { Store } from '@ngrx/store'
+import { State } from './store'
+import { EventItem } from './eventItem.model'
 
 @Component({
   selector: 'app-root',
@@ -6,5 +10,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  events: Observable<EventItem[]>
+
+  constructor(private store: Store<State>) {
+    this.events = store.select(state => state.events)
+  }
 }
