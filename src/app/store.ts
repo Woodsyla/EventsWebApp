@@ -2,11 +2,9 @@ import { Action } from '@ngrx/store'
 
 import { EventItem, initialEvents } from './eventItem.model'
 
-// export const ADDEVENT = '[Event] Add'
-// export const DELETEEVENT = '[Event] Update'
-// export const UPDATEEVENT = '[Event] Update'
 export const FILTEREVENTS = '[Events] Filter'
 export const SORTEVENTS = '[Events] Sort'
+export const SELECTEVENT = '[Event] Select'
 
 export class FilterEvents implements Action {
   readonly type = FILTEREVENTS
@@ -20,28 +18,42 @@ export class SortEvents implements Action {
   constructor(public payload: { field: string, desc: boolean}) { }
 }
 
-export type All = FilterEvents | SortEvents
+export class SelectEvent implements Action {
+  readonly type = SELECTEVENT
+
+  constructor(public payload: EventItem) { }
+}
+
+export type All = FilterEvents | SortEvents | SelectEvent
 
 
 export interface State {
   events: EventItem[]
   filter: string
   sort: { field: string, desc: boolean}
+  selectedEvent: EventItem
 }
 
 const initialState: State = {
   events: initialEvents(),
-  filter: null,
-  sort: { field: 'Name', desc: true}
+  filter: '',
+  sort: { field: 'Location', desc: false},
+  selectedEvent: null
 }
 
-export const reducer = function(state: State = initialState, action: All): State {
+export function reducer(state: State = initialState, action: All) {
+  return reducerFn(state, action)
+}
+
+const reducerFn = function(state: State = initialState, action: All): State {
   if (action) {
     switch (action.type) {
       case FILTEREVENTS :
         return {...state, filter: action.payload }
       case SORTEVENTS :
         return {...state, sort: Object.assign({}, state.sort, action.payload)}
+      case SELECTEVENT :
+        return {...state, selectedEvent: action.payload}
      default:
         return state
     }

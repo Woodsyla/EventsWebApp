@@ -1,0 +1,7 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <pre>{{(events | async) | json}}</pre>
+  <pre>{{(displayEvents | async) | json}}</pre>
+  <div>Filtered by: {{ filter | async}}</div>
+  <div>Sorted by: {{ (sort | async).field }} {{ (sort | async).desc ? 'desc' : 'asc' }}</div>
+</div>
