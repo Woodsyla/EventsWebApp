@@ -1,0 +1,5 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<span style='cursor:pointer' (click)='sortBy(field)'>{{field}}
+  <span class='glyphicon glyphicon-chevron-up' *ngIf="currentSort.Field === field  && !currentSort.Desc"></span>
+  <span class='glyphicon glyphicon-chevron-down' *ngIf="currentSort.Field === field && currentSort.Desc"></span>
+</span>

@@ -1,5 +1,4 @@
-import { Component, Input } from '@angular/core'
-import { Observable } from 'rxjs/Observable'
+import { Component } from '@angular/core'
 import { Store } from '@ngrx/store'
 import { State } from './store'
 import { EventItem } from './eventItem.model'
@@ -8,9 +7,9 @@ import { EventItem } from './eventItem.model'
   templateUrl: './event.component.html'
 })
 export class EventComponent {
-  @Input() selectedEvent: Observable<EventItem>
+  selectedEvent: EventItem
 
   constructor(private store: Store<State>) {
-    this.selectedEvent = store.select(state => state.selectedEvent)
+    store.select(state => state.selectedEvent).subscribe(event => this.selectedEvent = event)
   }
 }

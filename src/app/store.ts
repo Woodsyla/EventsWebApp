@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store'
 
 import { EventItem, initialEvents } from './eventItem.model'
+import {SortBy } from './sortBy.model'
 
 export const FILTEREVENTS = '[Events] Filter'
 export const SORTEVENTS = '[Events] Sort'
@@ -15,7 +16,7 @@ export class FilterEvents implements Action {
 export class SortEvents implements Action {
   readonly type = SORTEVENTS
 
-  constructor(public payload: { field: string, desc: boolean}) { }
+  constructor(public payload: SortBy) { }
 }
 
 export class SelectEvent implements Action {
@@ -30,14 +31,14 @@ export type All = FilterEvents | SortEvents | SelectEvent
 export interface State {
   events: EventItem[]
   filter: string
-  sort: { field: string, desc: boolean}
+  sort: SortBy
   selectedEvent: EventItem
 }
 
 const initialState: State = {
   events: initialEvents(),
   filter: '',
-  sort: { field: 'Location', desc: false},
+  sort: { Field: 'Title', Desc: true},
   selectedEvent: null
 }
 

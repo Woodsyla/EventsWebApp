@@ -1,20 +1,22 @@
 import { Component } from '@angular/core'
+import { Router } from '@angular/router'
 import { Observable } from 'rxjs/Observable'
 import 'rxjs/add/observable/combineLatest'
 import { Store } from '@ngrx/store'
-import { State } from './store'
+import * as fromStore from './store'
 import { EventItem } from './eventItem.model'
+import { SortBy } from './sortBy.model'
 
 @Component({
   templateUrl: './events.component.html'
 })
 export class EventsComponent {
   events: Observable<EventItem[]>
-  sort: Observable<{ field: string, desc: boolean}>
+  sort: Observable<SortBy>
   filter: Observable<string>
   displayEvents: Observable<EventItem[]>
 
-  constructor(private store: Store<State>) {
+  constructor(private store: Store<fromStore.State>, private router: Router) {
     this.events = store.select(state => state.events)
     this.sort = store.select(state => state.sort)
     this.filter = store.select(state => state.filter)
@@ -26,7 +28,7 @@ export class EventsComponent {
   private sortItems = (rules) => (a: EventItem, b: EventItem) => {
     let direction = 0
     if (rules) {
-        switch(rules.field) {
+        switch(rules.Field) {
           case 'Title':
             direction = a.Title > b.Title ? 1 : -1
             break
@@ -39,8 +41,17 @@ export class EventsComponent {
           default:
             direction = 1
         }
-        return rules.desc ? -direction : direction
+        return rules.Desc ? -direction : direction
       }
       return 1
+  }
+
+  filterEvent = (event) => {
+    this.store.dispatch(new fromStore.FilterEvents(event.target.value))
+  }
+
+  selectEvent = (item: EventItem) => {
+    this.store.dispatch(new fromStore.SelectEvent(item))
+    this.router.navigate(['/selectedEvent'])
   }
 }

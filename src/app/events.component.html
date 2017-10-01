@@ -1,7 +1,37 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <pre>{{(events | async) | json}}</pre>
-  <pre>{{(displayEvents | async) | json}}</pre>
-  <div>Filtered by: {{ filter | async}}</div>
-  <div>Sorted by: {{ (sort | async).field }} {{ (sort | async).desc ? 'desc' : 'asc' }}</div>
+<div class='container'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <h2>Events</h2>
+    </div>
+    <div class='panel-body'>
+      <div class='well'>
+        <div class='input-group'>
+          <input type="text" class='form-control' placeholder="Search for event .... " (keyup)='filterEvent($event)'>
+        </div>
+      </div>
+      <div class='well'>
+          <h4>Click on the header to sort by column, click again to change sort direction</h4>
+          <table class='table'>
+          <thead>
+            <tr>
+                <th><sortable-header field="Title"></sortable-header></th>
+                <th><sortable-header field="Location"></sortable-header></th>
+                <th><sortable-header field="Date"></sortable-header></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style='cursor: pointer' *ngFor='let displayEvent of (displayEvents | async)' (click)='selectEvent(displayEvent)'>
+              <td>{{displayEvent.Title}}</td>
+              <td>{{displayEvent.Location}}</td>
+              <td>{{displayEvent.Date | date }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class='panel-footer'>
+        <div>Sorted by: {{ (sort | async).Field }} {{ (sort | async).Desc ? 'desc' : 'asc' }}</div>
+        <div *ngIf='filter | async'>Filtered by: {{ filter | async}}</div>
+      </div>
+  </div>
 </div>
