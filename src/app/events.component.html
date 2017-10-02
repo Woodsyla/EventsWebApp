@@ -20,8 +20,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr style='cursor: pointer' *ngFor='let displayEvent of (displayEvents | async)' (click)='selectEvent(displayEvent)'>
-              <td>{{displayEvent.Title}}</td>
+            <tr *ngFor='let displayEvent of (displayEvents | async)'>
+              <td style='cursor: pointer' (click)='selectEvent(displayEvent)'>{{displayEvent.Title}}</td>
               <td>{{displayEvent.Location}}</td>
               <td>{{displayEvent.Date | date }}</td>
             </tr>
@@ -29,9 +29,4 @@
         </table>
       </div>
     </div>
-    <div class='panel-footer'>
-        <div>Sorted by: {{ (sort | async).Field }} {{ (sort | async).Desc ? 'desc' : 'asc' }}</div>
-        <div *ngIf='filter | async'>Filtered by: {{ filter | async}}</div>
-      </div>
-  </div>
 </div>
